@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
+const morgan = require("morgan");
 
 const planetRouter = require("./routes/planets/planets.router");
 
@@ -10,8 +11,10 @@ app.use(
     origin: "http://localhost:3000",
   })
 );
-app.use(express.json());
 
+app.use(morgan("combined"));
+
+app.use(express.json());
 // This is to show the react app
 app.use(express.static(path.join(__dirname, "..", "public")));
 
@@ -21,6 +24,6 @@ app.get("/", (_, res) => {
   res.sendFile(path.join(__dirname, "..", "public", "index.html"));
 });
 
-app.use(planetRouter);
+app.use("", planetRouter);
 
 module.exports = app;
