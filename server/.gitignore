@@ -8,6 +8,9 @@
 # testing
 /coverage
 
+# Package-lock.json
+/package-lock.json
+
 # production
 /build
 
