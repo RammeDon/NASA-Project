@@ -21,6 +21,7 @@ app.use(express.json());
 // This is to show the react app
 app.use(express.static(path.join(__dirname, "..", "public")));
 
+// This is where I'm defining my route roots
 app.use("/planets", planetRouter);
 app.use("/launches", launchesRouter);
 
