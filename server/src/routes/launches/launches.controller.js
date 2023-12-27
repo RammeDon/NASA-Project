@@ -1,7 +1,7 @@
 const { getAllLaunches, addNewLaunch } = require("../../models/launches.model");
 
 function httpGetAllLaunches(req, res) {
-  return res.status(200).json(Array.from(getAllLaunches()));
+  return res.status(200).json(getAllLaunches());
 }
 
 function httpAddNewLaunch(req, res) {
@@ -11,7 +11,7 @@ function httpAddNewLaunch(req, res) {
     !newLaunch.mission ||
     !newLaunch.rocket ||
     !newLaunch.launchDate ||
-    !newLaunch.destination
+    !newLaunch.target
   ) {
     return res.status(400).json({ error: "Missing Required Launch Protperty" });
   }

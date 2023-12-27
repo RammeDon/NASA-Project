@@ -5,9 +5,9 @@ let latestFlightNumber = 100;
 const launch = {
   flightNumber: 100,
   mission: "Kepler Exp X",
-  rocketName: "Explorer IS1",
+  rocket: "Explorer IS1",
   launchDate: new Date("December 27, 2030"),
-  destination: "Kepler-442 b",
+  target: "Kepler-442 b",
   customer: ["ZTM", "NASA"],
   upcoming: true,
   success: true,
@@ -16,7 +16,7 @@ const launch = {
 launches.set(launch.flightNumber, launch);
 
 function getAllLaunches() {
-  return Array.from(launches);
+  return Array.from(launches.values());
 }
 
 function addNewLaunch(launch) {
