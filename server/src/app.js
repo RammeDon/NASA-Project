@@ -16,6 +16,7 @@ app.use(
 
 app.use(morgan("combined"));
 
+// This allows Express to take JSON requests
 app.use(express.json());
 // This is to show the react app
 app.use(express.static(path.join(__dirname, "..", "public")));
