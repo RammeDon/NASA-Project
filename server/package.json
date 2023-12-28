@@ -5,6 +5,7 @@
   "main": "src/server.js",
   "scripts": {
     "test": "npx jest",
+    "test-watch": "npx jest --watch",
     "start": "node src/server.js",
     "watch": "nodemon src/server.js"
   },
@@ -18,7 +19,6 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "jest": "^29.7.0",
     "nodemon": "^3.0.2"
   }
 }
