@@ -10,7 +10,7 @@ function validateLaunchData(launch) {
     "target",
     "upcoming",
     "success",
-    "customer",
+    "customers",
   ];
   return requiredFields.every((field) => launch.hasOwnProperty(field));
 }
