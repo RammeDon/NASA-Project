@@ -18,7 +18,10 @@ const launch = {
 
 saveLaunch(launch);
 
-// launches.set(launch.flightNumber, launch);
+// ---------- ALL READ OPERATIONS ----------
+async function getAllLaunches() {
+  return await launchesDatabase.find({}, { _id: 0, __v: 0 });
+}
 
 async function getLatestFlightNumber() {
   const latestLaunch = await launchesDatabase.findOne().sort("-flightNumber");
@@ -29,13 +32,27 @@ async function getLatestFlightNumber() {
   return latestLaunch.flightNumber;
 }
 
-function existsLaunchWithId(launchId) {
-  return launches.has(launchId);
+async function existsLaunchWithId(launchId) {
+  return await launchesDatabase.findOne({
+    flightNumber: launchId,
+  });
 }
 
-async function getAllLaunches() {
-  // return Array.from(launches.values());
-  return await launchesDatabase.find({}, { _id: 0, __v: 0 });
+async function saveLaunch(launch) {
+  const planet = await planets.findOne({ keplerName: launch.target });
+
+  if (!planet) {
+    throw new Error("No Matching planet found.");
+  }
+  await launchesDatabase.findOneAndUpdate(
+    {
+      flightNumber: launch.flightNumber,
+    },
+    launch,
+    {
+      upsert: true,
+    }
+  );
 }
 
 async function scheduleNewLaunch(launch) {
@@ -50,28 +67,20 @@ async function scheduleNewLaunch(launch) {
   await saveLaunch(newLaunch);
 }
 
-async function saveLaunch(launch) {
-  const planet = await planets.findOne({ keplerName: launch.target });
+// ---------- ALL WRITE OPERATIONS ----------
 
-  if (!planet) {
-    throw new Error("No Matching planet found.");
-  }
-  await launchesDatabase.updateOne(
+async function abortLaunchById(launchId) {
+  const aborted = await launchesDatabase.updateOne(
     {
-      flightNumber: launch.flightNumber,
+      flightNumber: launchId,
     },
-    launch,
     {
-      upsert: true,
+      upcoming: false,
+      success: false,
     }
   );
-}
 
-function abortLaunchById(launchId) {
-  const aborted = launches.get(launchId);
-  aborted.upcoming = false;
-  aborted.success = false;
-  return aborted;
+  return aborted.modifiedCount === 1;
 }
 
 module.exports = {
