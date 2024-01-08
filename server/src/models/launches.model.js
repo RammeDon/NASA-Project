@@ -41,9 +41,9 @@ async function existsLaunchWithId(launchId) {
 async function saveLaunch(launch) {
   const planet = await planets.findOne({ keplerName: launch.target });
 
-  if (!planet) {
-    throw new Error("No Matching planet found.");
-  }
+  // if (!planet) {
+  //   throw new Error("No Matching planet found.");
+  // }
   await launchesDatabase.findOneAndUpdate(
     {
       flightNumber: launch.flightNumber,
